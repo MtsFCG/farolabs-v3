@@ -267,7 +267,7 @@ input, select, textarea { font: inherit; border: none; outline: none; }
   .hero.is-open .hero__faro {
     position: absolute;
     top: 0.25rem;
-    right: 0.5rem;
+    right: 0;
     left: auto;
     transform: none;
     margin: 0;
