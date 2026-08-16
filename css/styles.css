@@ -90,12 +90,16 @@ input, select, textarea { font: inherit; border: none; outline: none; }
 .btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  border-radius: var(--radius);
+  border-radius: 0;            /* puntas agudas (estilo farolabs-v2) */
   font-weight: 600;
-  transition: opacity var(--transition), transform var(--transition);
+  border: 2px solid transparent;
+  transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
 }
-.btn--primary { background: var(--color-indigo); color: var(--color-blanco); }
-.btn--primary:hover { opacity: 0.9; }
+.btn--primary { background: var(--color-indigo); color: var(--color-blanco); border-color: var(--color-indigo); }
+.btn--primary:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--color-indigo);
+}
 .btn--full { width: 100%; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
@@ -272,14 +276,19 @@ input, select, textarea { font: inherit; border: none; outline: none; }
 .form__input {
   padding: 0.7rem 0.85rem;
   border: 1px solid var(--color-gris);
-  border-radius: var(--radius);
+  border-radius: 0;            /* puntas agudas (estilo farolabs-v2) */
   background: var(--color-blanco);
   color: var(--color-negro);
-  transition: border-color var(--transition);
+  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
 }
-.form__input:focus { border-color: var(--color-indigo); }
-.form__input.error { border-color: #C0392B; }
-.form__input.valid { border-color: #27AE60; }
+.form__input:focus {
+  outline: none;
+  border-color: var(--color-indigo);
+  box-shadow: 2px 2px 0 var(--color-indigo);   /* sombra dura, sin difuminado */
+}
+.form__input:hover { transform: translate(-1px, -1px); }
+.form__input.error { border-color: #C0392B; box-shadow: 2px 2px 0 #C0392B; }
+.form__input.valid { border-color: #27AE60; box-shadow: 2px 2px 0 #27AE60; }
 textarea.form__input {
   resize: none;            /* no redimensionable en ningún sentido */
   overflow-y: auto;        /* barra de scroll interna si el texto crece */

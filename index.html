@@ -42,7 +42,7 @@
         <ul class="header__nav-list">
           <li><a href="#hero" class="header__nav-link">Inicio</a></li>
           <li><a href="#valores" class="header__nav-link">Nosotros</a></li>
-          <li><a href="#contacto" class="header__nav-link">Contacto</a></li>
+          <li><a href="#hero" class="header__nav-link">Contacto</a></li>
         </ul>
       </nav>
     </div>
@@ -147,54 +147,6 @@
             <p class="valor-card__text">Descripción del pilar.</p>
           </article>
         </div>
-      </div>
-    </section>
-
-    <!-- ============ CONTACTO (formulario completo) ============ -->
-    <section id="contacto" class="contacto section">
-      <div class="container">
-        <h2 class="section__title">Hagamos realidad tu idea</h2>
-        <p class="section__desc">Cuéntanos qué necesitas y te orientamos.</p>
-        <form class="form" id="form-contacto" novalidate>
-          <div class="form__group">
-            <label for="c-nombre" class="form__label">Nombre</label>
-            <input type="text" id="c-nombre" name="nombre" class="form__input" placeholder="Tu nombre" autocomplete="name">
-            <span class="form__error" role="alert"></span>
-          </div>
-          <div class="form__group">
-            <label for="c-tipo" class="form__label">Tipo de contacto</label>
-            <select id="c-tipo" name="tipo_contacto" class="form__input">
-              <option value="email">Email</option>
-              <option value="telefono">Teléfono</option>
-            </select>
-            <span class="form__error" role="alert"></span>
-          </div>
-          <div class="form__group">
-            <label for="c-valor" class="form__label">Contacto</label>
-            <input type="text" id="c-valor" name="valor_contacto" class="form__input" placeholder="tu@correo.cl o +56 9 ...">
-            <span class="form__error" role="alert"></span>
-          </div>
-          <div class="form__group form__group--full">
-            <label for="c-descripcion" class="form__label">Descripción</label>
-            <textarea id="c-descripcion" name="descripcion" class="form__input" rows="3" placeholder="Cuéntanos tu desafío (mín. 10 caracteres)..."></textarea>
-            <span class="form__error" role="alert"></span>
-          </div>
-          <div class="form__group">
-            <label for="c-urgencia" class="form__label">Urgencia</label>
-            <select id="c-urgencia" name="urgencia" class="form__input">
-              <option value="baja">Baja</option>
-              <option value="media" selected>Media</option>
-              <option value="alta">Alta</option>
-              <option value="critica">Crítica</option>
-            </select>
-            <span class="form__error" role="alert"></span>
-          </div>
-          <button type="submit" class="btn btn--primary btn--full form__submit" data-form-submit>
-            <span class="form__submit-text">Enviar</span>
-            <span class="form__spinner" aria-hidden="true"></span>
-          </button>
-          <p class="form__status" data-form-status role="status"></p>
-        </form>
       </div>
     </section>
   </main>
