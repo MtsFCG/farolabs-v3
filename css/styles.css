@@ -262,9 +262,17 @@ input, select, textarea { font: inherit; border: none; outline: none; }
   .hero__panel { transition: grid-column var(--transition), background var(--transition); }
   .hero__inner { transition: grid-template-columns var(--transition); }
 }
-/* Móvil: el faro aparece como encabezado del formulario al abrir */
+/* Móvil: el faro se va a la esquina superior derecha (aprovecha el hueco al lado de Farolabs) */
 @media (max-width: 767px) {
-  .hero.is-open .hero__faro { display: flex; margin-bottom: 1rem; }
+  .hero.is-open .hero__faro {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.5rem;
+    left: auto;
+    transform: none;
+    margin: 0;
+  }
+  .hero.is-open .hero__faro-img { width: 132px; }
 }
 
 /* ========================================
