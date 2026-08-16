@@ -181,7 +181,7 @@ input, select, textarea { font: inherit; border: none; outline: none; }
 }
 .hero__faro-icon { width: 96px; height: 96px; }
 .hero__faro-lighthouse { position: relative; display: inline-block; }
-.hero__faro-img { width: 120px; height: auto; display: block; }
+.hero__faro-img { width: 288px; height: auto; display: block; }
 .hero__faro-light {
   position: absolute;
   top: 8%;
