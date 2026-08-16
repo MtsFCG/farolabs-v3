@@ -25,95 +25,114 @@ farolabs-v3/
 ├── css/
 │   └── styles.css       (design tokens + BEM, un solo archivo)
 ├── js/
-│   └── main.js          (IIFE con 'use strict', módulos por comentarios)
+│   └── main.js          (IIFE con 'use strict', métodos por comentarios)
 └── assets/
-    ├── brand/           (isotipo, logo, apple-touch-icon, SVGs)
-    └── images/          (hero y demás imágenes)
+    ├── brand/
+    │   ├── faro.svg          (faro real, blanco #FFFFFF; hero y footer)
+    │   ├── faro-indigo.svg   (misma silueta, azul egipcio #1034A6; solo header)
+    │   ├── isotipo.svg       (placeholder, ya no se usa en el sitio)
+    │   └── apple-touch-icon.png
+    └── images/
+        └── hero.webp         (placeholder degradado, fondo del hero)
 ```
 
-### 1.3 Patrón CSS (design tokens + BEM)
+### 1.3 Patrón CSS (design tokens + BEM + estética aguda)
 - `:root` con custom properties por bloque:
-  - colores (`--color-*`)
-  - tipografías (`--font-*`)
-  - layout (`--container-max`, `--gutter`, `--header-h`)
-  - efectos (`--transition`, `--radius`)
+  - colores (`--color-*`): blanco, indigo (azul egipcio), negro, gris, faro.
+  - tipografías (`--font-*`): titulos (Montserrat serif), body (Montserrat).
+  - layout (`--container-max`, `--gutter`, `--header-h`).
+  - efectos (`--transition`, `--radius` — usado solo en elementos que NO son
+    del formulario; véase sección 1.7).
 - Reset/base explícito (box-sizing, margins, img, a, ul, button, input).
 - Utilidades reutilizables: `.container`, `.section`, `.section__title`,
   `.section__desc`, `.skip-link`.
-- Nomenclatura BEM estricta: `bloque__elemento--modificador`
-  (ej. `header`, `header__nav`, `header__menu-btn`, `btn--primary`, `form__error`).
+- Nomenclatura BEM: `bloque__elemento--modificador`.
 - Tipografía con `clamp()` para escala fluida.
 - `scroll-behavior: smooth` + `scroll-padding-top` para header fijo.
+- **Estética "puntas agudas"** (heredada de farolabs-v2): inputs, selects,
+  textareas y botones usan `border-radius: 0` y sombra dura sólida
+  (`box-shadow: 2px 2px 0 var(--color-indigo)` en focus, `4px 4px 0` en hover de
+  botones) en vez de glow suave. El panel del formulario también es `border-radius: 0`.
 
 ### 1.4 Estructura HTML (one-page)
 - `<head>`: meta SEO, Open Graph, Twitter card, canonical, fuentes
-  (preconnect + Google Fonts), favicon, y un `<script>` inline que define la
-  variable global del endpoint del formulario.
+  (preconnect + Google Fonts), favicon, y `<script>` inline que define
+  `window.FAROLABS_FORM_ENDPOINT`.
 - `<body>`:
   - skip-link (accesibilidad).
-  - `<header>` con logo + botón menú hamburguesa (`data-menu-btn`) + `<nav>` (`data-menu`).
+  - `<header>` con logo (faro-indigo.svg, 22px) + botón menú hamburguesa
+    (`data-menu-btn`) + `<nav>` (`data-menu`). El nav tiene: Inicio (#hero),
+    Nosotros (#valores), Contacto (#hero).
   - `<main>`:
-    - `#hero`      (grid 2 columnas; ver sección 1.6)
-    - `#valores`   (grid de tarjetas, iconos SVG inline) — *secciones de
-      contenido a definir por proyecto*
-    - `#contacto`  (formulario completo de captura de leads)
-  - `<footer>` con marca, links, año dinámico (`data-year`).
+    - `#hero`      (grid 2 columnas; ver sección 2).
+    - `#valores`   (grid de 4 tarjetas; contenido placeholder por definir).
+  - `<footer>` con marca (faro.svg blanco, 18px), texto y año dinámico
+    (`data-year`).
   - `<script src="js/main.js" defer>`.
 
 ### 1.5 Patrón JS
 - Un solo IIFE con `'use strict'`.
-- Módulos separados por comentarios: Mobile Menu, Hero reveal, Formulario, Año footer.
+- Módulos: Mobile Menu, Hero reveal, Formulario (pendiente), Año footer.
 - Selectores por `data-attributes` (`data-menu-btn`, `data-menu`, `data-year`,
   `data-help-toggle`, `data-help-panel`).
 - Accesibilidad: `aria-expanded`, `aria-label`, `role`, `Escape` para cerrar.
 - Sin dependencias externas.
 
 ### 1.6 Configuración por variable global
-- `window.FAROLABS_FORM_ENDPOINT` definido inline en `<head>`.
-- Permite cambiar el destino del formulario sin tocar HTML/JS.
-- Si no se define, fallback a `/api/leads` (o el endpoint por defecto que se
-  acuerde; ver sección 2).
+- `window.FAROLABS_FORM_ENDPOINT` definido inline en `<head>` (vacío por defecto
+  → fallback `/api/leads`).
+
+### 1.7 Notas de estética aguda (aplicada)
+- `.form__input`, `.btn`, `.hero__panel`: `border-radius: 0`.
+- `.form__input:focus`: `box-shadow: 2px 2px 0 var(--color-indigo)` (sin outline).
+- `.form__input:hover`: `transform: translate(-1px,-1px)`.
+- `.btn--primary:hover`: `transform: translate(-2px,-2px)` +
+  `box-shadow: 4px 4px 0 var(--color-indigo)`.
+- `.form__input.error` / `.valid`: sombra dura roja/verde respectiva.
+- Textarea de descripción: `resize: none` + `overflow-y: auto` (scroll interno,
+  no crece el campo).
 
 ---
 
 ## 2. Hero con formulario embebido (revelado progresivo)
 
-El hero usa una distribución de 2 columnas (opción split). El formulario de
-contacto vive en el lado derecho y se revela de manera progresiva: arranca
-colapsado y se expande hacia la izquierda al activarlo.
+El hero usa distribución de 2 columnas (split). El formulario de contacto vive
+en el lado derecho y se revela de manera progresiva. Es el ÚNICO formulario del
+sitio (la sección `#contacto` fue eliminada).
 
 ### 2.1 Escritorio
 - Grid de 2 columnas dentro de `.hero__inner`.
-- **Columna izquierda (`hero__intro`):** titular + subtítulo + CTA.
+- **Columna izquierda (`hero__intro`):** titular + subtítulo + CTA "Conoce más"
+  (apunta a `#valores`).
 - **Columna derecha (`hero__panel`):** arranca angosta mostrando solo el botón
   "Necesito ayuda". Al activarlo, el panel **empuja** (la columna crece de
-  angosta a ancha y el texto de la izquierda se desplaza) y revela los 4 campos
-  del formulario.
-- Al abrir, el texto de la columna izquierda se reemplaza por el **icono del
-  faro** (SVG inline) con una luz que parpadea en **morse "farolabs"**. Al
-  cerrar, vuelve el texto de marca.
-- El botón "Necesito ayuda" se transforma en "Cerrar" al expandirse (mismo
-  botón, toggle).
+  angosta a ancha: `1fr 0.4fr` → `0.85fr 1.15fr`) y revela los 4 campos.
+- Al abrir, el texto de la columna izquierda se **desvanece** (`opacity: 0` +
+  `visibility: hidden`, no `display:none`) y aparece el **faro real** centrado
+  (absolute, `top: 10%`, centrado horizontal) con fade-in de 0.4s.
+- El botón "Necesito ayuda" se transforma en "Cerrar ✕" (esquina superior
+  derecha del panel, estilo ghost gris, mismo nivel que la etiqueta "Nombre").
 
-### 2.2 Animación
-- Transición de `grid-template-columns` (angosto → ancho), sin animar `width`
-  directo para evitar saltos.
-- Campos con `opacity` + leve desplazamiento al aparecer.
-- Luz morse en loop con CSS keyframes (punto = blink corto, raya = blink largo,
-  pausa entre letras). Morse de "farolabs": `..-. .- .-. --- .-.. .- -... ...`.
-- Color de la luz en token nuevo (ej. `--color-faro`, por definir en la paleta).
+### 2.2 Faro (real, del proyecto farolabs original)
+- `assets/brand/faro.svg`: silueta de faro trazada (potrace), relleno blanco,
+  traída del proyecto `farolabs` original (`src/assets/lighthouse.svg`).
+- En el hero mide 288px de ancho (agrandado 120% respecto al placeholder).
+- Luz morse: círculo `.hero__faro-light` (blanco + glow) superpuesto sobre la
+  linterna, animado con keyframe `morse-farolabs` (parpadeo opacidad, no cambia
+  color ni tamaño). Morse de "farolabs": `..-. .- .-. --- .-.. .- -... ...`.
+- Regla de marca: el faro es de **un solo color (blanco)** y **una sola
+  dimensión** (tamaño fijo).
 
 ### 2.3 Móvil
 - Arranca con el botón "Necesito ayuda".
-- Al clic, el formulario se despliega en **bloque completo debajo** del texto
-  (sin expansión lateral, porque el split no aplica en pantallas chicas).
-- El icono del faro en morse aparece como encabezado del formulario al abrir.
-- El botón se vuelve "Cerrar".
+- Al clic, el formulario se despliega en bloque completo debajo del texto.
+- El faro aparece como encabezado del formulario al abrir.
+- El botón se vuelve "Cerrar ✕".
 
 ### 2.4 Accesibilidad
-- Botón con `aria-expanded`, `data-help-toggle`.
-- Panel con `data-help-panel`; fuera del tab order cuando está colapsado.
-- Al abrir: mover el foco al primer campo. Al cerrar: devolver el foco al botón.
+- Botón con `aria-expanded`, `data-help-toggle`; panel `data-help-panel`.
+- Panel fuera del tab order cuando está colapsado (`hidden`).
+- Al abrir: foco al primer campo (tras 300ms). Al cerrar: foco al botón.
 - `Escape` cierra el panel.
 
 ---
@@ -121,31 +140,24 @@ colapsado y se expande hacia la izquierda al activarlo.
 ## 3. Formulario Estático con Backend en Google Sheets
 
 ### 3.1 Arquitectura del flujo
-- **Frontend:** HTML + CSS + JavaScript puro (sin frameworks, sin build step).
-  Se sirve desde GitHub Pages.
-- **Backend:** Google Apps Script desplegado como Web App. Recibe POST y escribe
-  en Google Sheets.
-- **Comunicación:** `fetch` desde el frontend al endpoint de Apps Script con
-  método `POST` y `Content-Type: text/plain` (para evitar CORS preflight).
+- **Frontend:** HTML + CSS + JavaScript puro. Se sirve desde GitHub Pages.
+- **Backend:** Google Apps Script (Web App) que recibe POST y escribe en Sheets.
+- **Comunicación:** `fetch` con `POST` y `Content-Type: text/plain` (evita
+  CORS preflight).
 
 ### 3.2 Requerimientos Funcionales
-- **RF-01:** Formulario de 4 campos visibles: Nombre, Contacto (email o
-  teléfono), Descripción, Urgencia.
-- **RF-02:** Al enviar, el frontend hace `fetch` al endpoint de Apps Script con
-  los datos como JSON.
-- **RF-03:** El backend de Apps Script recibe los datos, los valida mínimamente
-  y los agrega como una nueva fila en la hoja de cálculo.
-- **RF-04:** El frontend muestra confirmación visual sin recargar la página.
-- **RF-05:** Si el `fetch` falla, se muestra mensaje de error y el formulario
-  queda intacto para reintentar.
+- **RF-01:** 4 campos: Nombre, Contacto (email o teléfono), Descripción, Urgencia.
+- **RF-02:** Al enviar, `fetch` al endpoint con los datos en JSON.
+- **RF-03:** Apps Script valida mínimo y agrega una fila.
+- **RF-04:** Confirmación visual sin recargar.
+- **RF-05:** Si falla, mensaje de error y formulario intacto para reintentar.
 
 ### 3.3 Reglas de Negocio (Frontend)
 - **RN-01:** Nombre obligatorio.
-- **RN-02:** Contacto: el usuario elige "Email" o "Teléfono" con un selector.
-  Según elección, se valida el formato correspondiente.
+- **RN-02:** Contacto: selector Email/Teléfono; valida formato según elección.
 - **RN-03:** Descripción obligatoria, mínimo 10 caracteres.
-- **RN-04:** Urgencia con selector de 4 opciones y valor por defecto "Media".
-- **RN-05:** Botón deshabilitado mientras hay un envío en curso (evitar doble envío).
+- **RN-04:** Urgencia: 4 opciones, default "Media".
+- **RN-05:** Botón deshabilitado durante el envío.
 
 ### 3.4 Estructura de Datos (JSON que envía el frontend)
 ```json
@@ -159,25 +171,21 @@ colapsado y se expande hacia la izquierda al activarlo.
 }
 ```
 
-### 3.5 Google Sheets (columnas esperadas en orden)
+### 3.5 Google Sheets (columnas en orden)
 ```
 A         B       C              D               E            F
 Fecha     Nombre  Tipo Contacto  Valor Contacto  Descripción  Urgencia
 ```
 
 ### 3.6 Criterios de Aceptación
-- La página carga sin errores de consola en GitHub Pages.
-- Al enviar el formulario, una nueva fila aparece en la hoja de Google en menos
-  de 3 segundos.
-- El endpoint de Apps Script responde con JSON:
-  `{ "ok": true, "message": "Recibido" }` o `{ "ok": false, "message": "Error" }`.
-- El frontend maneja ambos casos correctamente.
-- No se requiere ningún servidor propio ni servicio de pago.
+- Carga sin errores de consola en GitHub Pages.
+- Nueva fila en la hoja en menos de 3 segundos.
+- Apps Script responde `{ "ok": true, "message": "Recibido" }` o
+  `{ "ok": false, "message": "Error" }`. El frontend maneja ambos casos.
+- Sin servidor propio ni servicio de pago.
 
 ### 3.7 Fuera de Alcance
-- Sin autenticación de usuarios.
-- Sin captcha (se puede agregar después si hay spam).
-- Sin notificaciones por email (se puede agregar después con `MailApp` en Apps Script).
+- Sin autenticación, sin captcha, sin notificaciones por email (ampliable).
 
 ---
 
@@ -185,24 +193,25 @@ Fecha     Nombre  Tipo Contacto  Valor Contacto  Descripción  Urgencia
 
 ### 4.1 Proporciones de uso
 - Blanco: 40% (fondos principales)
-- Azul índigo: 30% (accentos, headers, marca)
+- Azul egipcio: 30% (accentos, headers, marca)
 - Negro: 20% (texto y áreas oscuras)
 - Gris: 10% (textos secundarios, bordes)
 
 ### 4.2 Valores y tokens CSS
-| Uso          | Hex       | Token CSS            |
-|--------------|-----------|----------------------|
-| Blanco       | `#FFFFFF` | `--color-blanco`     |
-| Azul egipcio | `#1034A6` | `--color-indigo`     |
-| Negro        | `#1A1A1A` | `--color-negro`      |
-| Gris         | `#8A8A8A` | `--color-gris`       |
-| Luz del faro | `#FFFFFF` | `--color-faro`     |
+| Uso          | Hex       | Token CSS            | Notas                                    |
+|--------------|-----------|----------------------|------------------------------------------|
+| Blanco       | `#FFFFFF` | `--color-blanco`     | fondos                                   |
+| Azul egipcio | `#1034A6` | `--color-indigo`     | accentos, marca, sombra dura del form    |
+| Negro        | `#1A1A1A` | `--color-negro`      | texto y áreas oscuras                    |
+| Gris         | `#8A8A8A` | `--color-gris`       | textos secundarios                       |
+| Luz del faro | `#FFFFFF` | `--color-faro`       | blanco, un solo color, una dimensión     |
 
-- Los tokens se declaran en `:root` dentro de `css/styles.css`, junto a los
-  tokens de tipografía y layout ya definidos en la sección 1.3.
-- `--color-faro` = blanco (`#FFFFFF`). El faro es de **un solo color** (blanco)
-  y **una sola dimensión** (tamaño fijo, no varía). La luz morse (sección 2.2)
-  parpadea mediante opacidad/visibilidad, sin cambiar color ni tamaño.
+- Tokens en `:root` de `css/styles.css`.
+- El faro del header usa `faro-indigo.svg` (azul egipcio, igual que el texto
+  "FAROLABS"). El footer y el hero usan `faro.svg` (blanco).
+- El faro es de un solo color (blanco en hero/footer, azul egipcio en header) y
+  una sola dimensión (tamaño fijo). La luz morse parpadea por opacidad, sin
+  cambiar color ni tamaño.
 
 ---
 
@@ -211,14 +220,10 @@ Fecha     Nombre  Tipo Contacto  Valor Contacto  Descripción  Urgencia
 - Validación por campo en `blur`/`input`, clases `.error`/`.valid`,
   `<span class="form__error" role="alert">`, `data-form-submit`,
   `data-form-status`, estado de carga con spinner.
-- El envío usa POST `text/plain` al endpoint `FAROLABS_FORM_ENDPOINT`.
-- La respuesta del backend se maneja como `ok`/`message` (sección 3.6): el
-  frontend lee el JSON de respuesta cuando está disponible.
-- El payload incluye `tipo_contacto` y `valor_contacto` separados (no un solo
-  campo "contacto"), según la estructura de datos de la sección 3.4.
-- Campos adaptados a las reglas de negocio: selector de tipo de contacto
-  (RN-02), descripción con mínimo de 10 caracteres (RN-03), selector de urgencia
-  con default "Media" (RN-04), botón deshabilitado durante el envío (RN-05).
-- El formulario aparece en dos lugares: dentro del hero (sección 2, revelado
-  progresivo) y en la sección `#contacto` (formulario completo). Ambos usan el
-  mismo patrón de validación y envío.
+- Envío POST `text/plain` al endpoint `FAROLABS_FORM_ENDPOINT`.
+- Respuesta manejada como `ok`/`message` (sección 3.6).
+- Payload con `tipo_contacto` y `valor_contacto` separados (sección 3.4).
+- Campos adaptados a RN-01..RN-05.
+- **El formulario aparece en UN solo lugar: dentro del hero (sección 2, revelado
+  progresivo).** La sección `#contacto` fue eliminada; el nav "Contacto" apunta
+  a `#hero` para llevar al usuario al hero y al botón "Necesito ayuda".
