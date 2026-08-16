@@ -1,14 +1,45 @@
 /**
  * Backend de leads para Farolabs.
  * Pegar en: Google Sheets -> Extensiones -> Apps Script (reemplaza el código).
- * Luego: Implementar -> Nueva implementación ->Tipo: Aplicación web ->
+ * Luego: Implementar -> Nueva implementación -> Tipo: Aplicación web ->
  *   Ejecutar como: Yo -> Quién tiene acceso: Cualquiera.
- * Copiar la URL de la implementación y pegarla en FAROLABS_FORM_ENDPOINT.
+ * Copiar la URL de la implementación y pegarla en FAROLABS_FORM_ENDPOINT
+ * (en index.html, dentro de <script> en el <head>).
  *
- * ID de la hoja (no necesario en el código si se vincula desde el editor):
- * 1U9QnD2XErxaCtsBLl3Sq40kvq9gwtEmGQKi2_rKQA3g
+ * IMPORTANTE: no commitees el ID real de la hoja ni la URL del script a un
+ * repositorio público. Usa los placeholders de abajo y completalos en Google.
  */
+var SHEET_ID = 'TU_SHEET_ID_AQUI'; // <-- reemplaza con el ID real de tu Google Sheet
+
+function getHoja() {
+  var ss = SpreadsheetApp.openById(SHEET_ID);
+  return ss.getSheets()[0]; // primera hoja del documento
+}
+
 function doGet(e) {
+  var p = (e && e.parameter) ? e.parameter : {};
+
+  // Modo prueba: abre la URL con ?test=1 para insertar una fila de prueba.
+  if (p.test === '1') {
+    try {
+      var sheet = getHoja();
+      var headers = ['Fecha', 'Nombre', 'Contacto', 'Descripcion', 'Urgencia'];
+      var firstRow = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
+      if (firstRow.every(function (c) { return c === ''; })) {
+        sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+      }
+      var fecha = new Date().toISOString();
+      sheet.appendRow([fecha, 'PRUEBA', 'test@farolabs.pro', 'Fila insertada por modo prueba (?test=1).', 'media']);
+      return ContentService.createTextOutput(
+        JSON.stringify({ ok: true, message: 'Fila de prueba insertada', fecha: fecha })
+      ).setMimeType(ContentService.MimeType.JSON);
+    } catch (err) {
+      return ContentService.createTextOutput(
+        JSON.stringify({ ok: false, message: String(err) })
+      ).setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
   return ContentService.createTextOutput(
     JSON.stringify({ ok: true, message: 'Farolabs leads endpoint listo' })
   ).setMimeType(ContentService.MimeType.JSON);
@@ -16,7 +47,7 @@ function doGet(e) {
 
 function doPost(e) {
   try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var sheet = getHoja();
 
     // Cabeceras esperadas (se crean solas la primera vez).
     var headers = ['Fecha', 'Nombre', 'Contacto', 'Descripcion', 'Urgencia'];
@@ -32,7 +63,6 @@ function doPost(e) {
     try {
       data = JSON.parse(raw);
     } catch (err) {
-      // Si no es JSON, intenta como form-urlencoded.
       if (raw && raw.indexOf('=') !== -1) {
         raw.split('&').forEach(function (pair) {
           var kv = pair.split('=');
