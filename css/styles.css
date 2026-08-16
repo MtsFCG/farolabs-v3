@@ -159,12 +159,13 @@ input, select, textarea { font: inherit; border: none; outline: none; }
 .hero__intro { color: var(--color-blanco); position: relative; }
 .hero__title {
   font-family: var(--font-titulos);
-  font-weight: 700;
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  line-height: 1.1;
-  margin-bottom: 1rem;
+  font-weight: 800;
+  font-size: clamp(3.5rem, 11vw, 7.5rem);
+  line-height: 1.02;
+  letter-spacing: 0.005em;
+  margin-bottom: 1.25rem;
 }
-.hero__subtitle { font-size: 1.15rem; max-width: 32rem; margin-bottom: 1.5rem; opacity: 0.9; }
+.hero__subtitle { font-family: var(--font-body); font-weight: 700; font-size: clamp(1.4rem, 3vw, 2.1rem); max-width: 40rem; margin-bottom: 1.75rem; opacity: 0.95; line-height: 1.4; }
 
 /* Faro morse (aparece al abrir el panel, centrado horizontal y subido verticalmente) */
 .hero__faro {
