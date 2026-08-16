@@ -65,13 +65,10 @@
           </div>
           <!-- Icono del faro (blanco, una dimensión) mostrado al abrir el panel -->
           <div class="hero__faro" data-hero-faro hidden aria-hidden="true">
-            <svg viewBox="0 0 48 48" width="96" height="96" fill="none" class="hero__faro-icon">
-              <!-- faro: base + torre + luz (blanco, tamaño fijo) -->
-              <path d="M14 44h20l-3-10H17L14 44Z" fill="#FFFFFF"/>
-              <rect x="20" y="14" width="8" height="20" fill="#FFFFFF"/>
-              <path d="M20 14l4-8 4 8H20Z" fill="#FFFFFF"/>
-              <circle class="hero__faro-light" cx="24" cy="8" r="3" fill="#FFFFFF"/>
-            </svg>
+            <span class="hero__faro-lighthouse">
+              <img src="assets/brand/faro.svg" alt="" class="hero__faro-img" width="120" height="67">
+              <span class="hero__faro-light" aria-hidden="true"></span>
+            </span>
             <span class="hero__faro-sr">Farolabs en morse</span>
           </div>
         </div>

@@ -151,7 +151,7 @@ input, select, textarea { font: inherit; border: none; outline: none; }
   gap: var(--gutter);
   align-items: center;
 }
-.hero__intro { color: var(--color-blanco); }
+.hero__intro { color: var(--color-blanco); position: relative; }
 .hero__title {
   font-family: var(--font-titulos);
   font-weight: 700;
@@ -161,7 +161,7 @@ input, select, textarea { font: inherit; border: none; outline: none; }
 }
 .hero__subtitle { font-size: 1.15rem; max-width: 32rem; margin-bottom: 1.5rem; opacity: 0.9; }
 
-/* Faro morse (aparece al abrir el panel) */
+/* Faro morse (aparece al abrir el panel, centrado horizontal y subido verticalmente) */
 .hero__faro {
   display: flex;
   flex-direction: column;
@@ -172,10 +172,26 @@ input, select, textarea { font: inherit; border: none; outline: none; }
   opacity: 0;
   transition: opacity 0.4s ease;
 }
-.hero.is-open .hero__faro { opacity: 1; }
+.hero.is-open .hero__faro {
+  opacity: 1;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .hero__faro-icon { width: 96px; height: 96px; }
-.hero__faro-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.hero__faro-lighthouse { position: relative; display: inline-block; }
+.hero__faro-img { width: 120px; height: auto; display: block; }
 .hero__faro-light {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-faro);
+  box-shadow: 0 0 12px 4px var(--color-faro);
   animation: morse-farolabs 6s steps(1, end) infinite;
 }
 @keyframes morse-farolabs {
@@ -227,7 +243,7 @@ input, select, textarea { font: inherit; border: none; outline: none; }
 }
 .hero.is-open .hero__toggle:hover { color: var(--color-negro); background: transparent; }
 
-/* Escritorio: el panel crece y empuja el texto; el texto se cambia por el faro */
+/* Escritorio: el panel crece y empuja el texto; el título se desvanece y aparece el faro */
 @media (min-width: 768px) {
   .hero.is-open .hero__inner { grid-template-columns: 0.85fr 1.15fr; }
   .hero.is-open .hero__intro-text {
