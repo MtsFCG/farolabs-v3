@@ -86,16 +86,8 @@
                 <span class="form__error" role="alert"></span>
               </div>
               <div class="form__group">
-                <label for="hero-tipo" class="form__label">Tipo de contacto</label>
-                <select id="hero-tipo" name="tipo_contacto" class="form__input">
-                  <option value="email">Email</option>
-                  <option value="telefono">Teléfono</option>
-                </select>
-                <span class="form__error" role="alert"></span>
-              </div>
-              <div class="form__group">
                 <label for="hero-valor" class="form__label">Contacto</label>
-                <input type="text" id="hero-valor" name="valor_contacto" class="form__input" placeholder="tu@correo.cl o +56 9 ...">
+                <input type="email" id="hero-valor" name="valor_contacto" class="form__input" placeholder="tu@correo.cl" autocomplete="email">
                 <span class="form__error" role="alert"></span>
               </div>
               <div class="form__group form__group--full">
