@@ -122,6 +122,7 @@ input, select, textarea { font: inherit; border: none; outline: none; }
   justify-content: space-between;
 }
 .header__logo { display: flex; align-items: center; gap: 0.5rem; }
+.header__logo-icon { width: auto; height: 22px; display: block; }
 .header__logo-text { font-weight: 700; letter-spacing: 0.08em; color: var(--color-indigo); }
 .header__menu-btn { display: none; flex-direction: column; gap: 5px; padding: 0.5rem; }
 .header__menu-btn span { width: 24px; height: 2px; background: var(--color-negro); transition: var(--transition); }
@@ -336,7 +337,7 @@ textarea.form__input {
    ======================================== */
 .footer { background: var(--color-negro); color: var(--color-blanco); padding: 2rem 0; }
 .footer__inner { display: flex; flex-direction: column; gap: 1rem; align-items: center; text-align: center; }
-.footer__brand { display: flex; align-items: center; gap: 0.5rem; }
+.footer__logo { width: auto; height: 18px; display: block; }
 .footer__name { font-weight: 700; letter-spacing: 0.08em; }
 .footer__copy { font-size: 0.85rem; opacity: 0.7; }
 
