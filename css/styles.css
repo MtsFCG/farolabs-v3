@@ -217,7 +217,7 @@ input, select, textarea { font: inherit; border: none; outline: none; }
 /* Panel que se revela (columna derecha) */
 .hero__panel {
   background: rgba(255,255,255,0.97);
-  border-radius: var(--radius);
+  border-radius: 0;            /* puntas agudas, coherente con el formulario */
   padding: 1.25rem;
   align-self: center;
   transition: grid-column var(--transition);
