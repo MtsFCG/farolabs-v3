@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+  <!-- Faro: placeholder de marca Farolabs -->
+  <path d="M14 44h20l-3-10H17L14 44Z" fill="#1034A6"/>
+  <rect x="20" y="14" width="8" height="20" fill="#1034A6"/>
+  <path d="M20 14l4-8 4 8H20Z" fill="#1034A6"/>
+  <circle cx="24" cy="8" r="3" fill="#FFFFFF"/>
+</svg>
