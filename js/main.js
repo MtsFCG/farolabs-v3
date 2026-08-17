@@ -179,4 +179,83 @@
         });
     });
   }
+
+  /* ======================
+     Hero: fondo animado (luciérnagas blanco/azul)
+     ====================== */
+  var canvas = document.querySelector('[data-hero-canvas]');
+  if (canvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var ctx = canvas.getContext('2d');
+    var heroEl = document.querySelector('.hero');
+    var particles = [];
+    var W = 0, H = 0, rafId = null, running = true;
+
+    var COLORS = ['#FFFFFF', '#1034A6']; // blanco y azul egipcio
+
+    function size() {
+      if (!heroEl) return;
+      W = heroEl.clientWidth;
+      H = heroEl.clientHeight;
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function makeParticles() {
+      // Menos partículas en móvil para cuidar el rendimiento.
+      var count = window.matchMedia('(max-width: 767px)').matches ? 22 : 50;
+      particles = [];
+      for (var i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: 1.2 + Math.random() * 1.8,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          base: 0.3 + Math.random() * 0.5,
+          blink: Math.random() * Math.PI * 2,
+          blinkSpeed: 0.01 + Math.random() * 0.03,
+          color: COLORS[Math.random() < 0.5 ? 0 : 1]
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        p.x += p.vx; p.y += p.vy; p.blink += p.blinkSpeed;
+        if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5;
+        if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5;
+
+        // Cambio aleatorio de color ocasional.
+        if (Math.random() < 0.002) {
+          p.color = COLORS[Math.random() < 0.5 ? 0 : 1];
+        }
+
+        var alpha = p.base + Math.sin(p.blink) * 0.35;
+        if (alpha < 0) alpha = 0; if (alpha > 1) alpha = 1;
+        ctx.beginPath();
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = alpha;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (running) rafId = requestAnimationFrame(draw);
+    }
+
+    function start() { if (!rafId) { running = true; rafId = requestAnimationFrame(draw); } }
+    function stop() { running = false; if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+
+    size();
+    makeParticles();
+    start();
+
+    window.addEventListener('resize', function () { size(); makeParticles(); });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stop(); else start();
+    });
+  }
 })();

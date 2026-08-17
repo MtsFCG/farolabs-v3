@@ -141,8 +141,10 @@ input, select, textarea { font: inherit; border: none; outline: none; }
   overflow: hidden;
 }
 .hero__bg, .hero__overlay { position: absolute; inset: 0; }
+.hero__bg { z-index: 0; }
 .hero__bg-img { width: 100%; height: 100%; object-fit: cover; }
-.hero__overlay { background: rgba(26,26,26,0.55); }
+.hero__overlay { background: rgba(26,26,26,0.55); z-index: 2; }
+.hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; display: block; }
 
 .hero__inner {
   position: relative;
@@ -432,3 +434,10 @@ textarea.form__input {
 .privacidad li { margin-bottom: 0.35rem; }
 .privacidad__sub { font-family: var(--font-titulos); color: var(--color-indigo); font-weight: 700; font-size: 1.25rem; margin: 1.75rem 0 0.5rem; }
 .privacidad__volver { text-align: left !important; margin-top: 2rem; }
+
+/* ========================================
+   Accesibilidad: reducir movimiento
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  .hero__canvas { display: none; }
+}
