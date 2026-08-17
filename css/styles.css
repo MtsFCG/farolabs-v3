@@ -319,6 +319,10 @@ textarea.form__input {
 .form__status { text-align: center; font-weight: 500; min-height: 1.25rem; }
 .form__status.success { color: #27AE60; }
 .form__status.error { color: #C0392B; }
+.form__consent { margin-top: 0.25rem; }
+.form__consent-label { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.9rem; color: var(--color-gris); line-height: 1.4; cursor: pointer; }
+.form__consent-input { width: 1.1rem; height: 1.1rem; margin-top: 0.15rem; accent-color: var(--color-indigo); flex: 0 0 auto; }
+.form__consent-label a { color: var(--color-indigo); text-decoration: underline; }
 
 /* ========================================
    Bitácora del Faro
@@ -418,3 +422,13 @@ textarea.form__input {
   .form__grid { grid-template-columns: 1fr; }
   .bitacora__grid { grid-template-columns: 1fr; gap: 2rem; }
 }
+
+/* ========================================
+   Página Política de Privacidad
+   ======================================== */
+.privacidad { max-width: 48rem; }
+.privacidad p { color: var(--color-gris); font-size: 1rem; line-height: 1.7; text-align: justify; text-justify: inter-word; margin: 0 0 1rem; }
+.privacidad ul { color: var(--color-gris); font-size: 1rem; line-height: 1.7; text-align: justify; text-justify: inter-word; margin: 0 0 1rem; padding-left: 1.25rem; }
+.privacidad li { margin-bottom: 0.35rem; }
+.privacidad__sub { font-family: var(--font-titulos); color: var(--color-indigo); font-weight: 700; font-size: 1.25rem; margin: 1.75rem 0 0.5rem; }
+.privacidad__volver { text-align: left !important; margin-top: 2rem; }

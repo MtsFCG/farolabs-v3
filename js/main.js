@@ -122,12 +122,22 @@
       if (descripcion.value.trim().length < 10) { fieldError(descripcion, 'Mínimo 10 caracteres.'); ok = false; }
       else fieldError(descripcion, '');
 
+      // RN-06: Consentimiento de política de privacidad obligatorio
+      var consentimiento = form.querySelector('[name="consentimiento"]');
+      if (consentimiento && !consentimiento.checked) {
+        var cGroup = consentimiento.closest('.form__group');
+        var cErr = cGroup ? cGroup.querySelector('.form__error') : null;
+        if (cErr) cErr.textContent = 'Debes aceptar la política de privacidad.';
+        ok = false;
+      }
+
       // RN-04: Urgencia tiene default; RN-05 se maneja al enviar
       return { ok: ok, data: {
         nombre: nombre.value.trim(),
         contacto: contacto.value.trim(),
         descripcion: descripcion.value.trim(),
-        urgencia: urgencia ? urgencia.value : 'media'
+        urgencia: urgencia ? urgencia.value : 'media',
+        consentimiento: consentimiento ? consentimiento.checked : false
       } };
     }
 
