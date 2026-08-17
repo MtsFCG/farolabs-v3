@@ -62,6 +62,19 @@
         setOpen(false);
       }
     });
+
+    // Link "Contacto" del menú superior abre el mismo formulario.
+    var contactLink = document.querySelector('[data-help-open]');
+    if (contactLink) {
+      contactLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        setOpen(true);
+        if (window.matchMedia('(max-width: 767px)').matches && menuBtn) {
+          // Cierra el menú móvil si está abierto para ver el formulario.
+          toggleMenu(false);
+        }
+      });
+    }
   }
 
   /* ======================
