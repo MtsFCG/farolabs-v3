@@ -23,13 +23,13 @@ function doGet(e) {
   if (p.test === '1') {
     try {
       var sheet = getHoja();
-      var headers = ['Fecha', 'Nombre', 'Contacto', 'Descripcion', 'Urgencia'];
+      var headers = ['Fecha', 'Nombre', 'Contacto', 'Descripcion', 'Urgencia', 'Consentimiento'];
       var firstRow = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
       if (firstRow.every(function (c) { return c === ''; })) {
         sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
       }
       var fecha = new Date().toISOString();
-      sheet.appendRow([fecha, 'PRUEBA', 'test@farolabs.pro', 'Fila insertada por modo prueba (?test=1).', 'media']);
+      sheet.appendRow([fecha, 'PRUEBA', 'test@farolabs.pro', 'Fila insertada por modo prueba (?test=1).', 'media', 'Si (prueba)']);
       return ContentService.createTextOutput(
         JSON.stringify({ ok: true, message: 'Fila de prueba insertada', fecha: fecha })
       ).setMimeType(ContentService.MimeType.JSON);
@@ -76,8 +76,9 @@ function doPost(e) {
     var contacto = (data.contacto || '').toString().trim();
     var descripcion = (data.descripcion || '').toString().trim();
     var urgencia = (data.urgencia || 'media').toString().trim();
+    var consentimiento = (data.consentimiento === true || data.consentimiento === 'true' || data.consentimiento === 'si') ? 'Sí' : 'No';
 
-    sheet.appendRow([fecha, nombre, contacto, descripcion, urgencia]);
+    sheet.appendRow([fecha, nombre, contacto, descripcion, urgencia, consentimiento]);
 
     return ContentService.createTextOutput(
       JSON.stringify({ ok: true, message: 'Recibido' })
