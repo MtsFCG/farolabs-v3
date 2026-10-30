@@ -1,0 +1,51 @@
+# Auto-generated standard ignore
+# Sensitive
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+id_rsa
+id_ed25519
+*credentials*
+*secret*
+*token*
+*password*
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+# Logs
+*.log
+*.jsonl
+# Documents / media (sensitive or large)
+*.pdf
+*.eml
+*.msg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.webp
+*.ico
+*.svg
+# Archives / large
+*.tar.gz
+*.tar
+*.zip
+*.bak
+# Build / deps
+node_modules/
+.venv/
+__pycache__/
+dist/
+build/
+.data/
+data/
+
